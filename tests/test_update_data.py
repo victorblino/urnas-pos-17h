@@ -43,6 +43,8 @@ class UpdateDataTest(unittest.TestCase):
         state, sections = aggregate_state("AC", [result])
         self.assertEqual(sections[0]["beforeDecision"], 1)
         self.assertEqual(sections[0]["afterDecision"], 1)
+        self.assertEqual(sections[0]["lastVoteAtLocal"], "15:03:00")
+        self.assertEqual(sections[0]["lastVoteAtBrasilia"], "17:03:00")
         self.assertEqual(state["beforeDecision"], 1)
 
     def test_non_election_day_is_ignored(self):

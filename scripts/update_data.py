@@ -33,6 +33,7 @@ VOTE_MESSAGE = "O voto do eleitor foi computado"
 CLOSING_MESSAGE = "Inicio do Encerramento"
 DECISION_TIME = "17:03:00"
 DECISION_MINUTE = 3
+TOTAL_SECOND_ROUND_URNS = 499_248
 READY_MESSAGES = (
     "Aguardando digitação do título",
     "Aguardando digitação do identificador do eleitor",
@@ -144,6 +145,7 @@ def aggregate_state(uf: str, logs: list[LogSummary], errors: int = 0) -> tuple[d
     for log in logs:
         offset = municipality_offset.get(log.municipality, OFFICIAL_OFFSET.get(uf, 0))
         closing_brasilia = log.closing - offset * 3600 if log.closing is not None else None
+        last_vote_brasilia = log.last_vote - offset * 3600 if log.last_vote is not None else None
         after = log.after_decision_by_offset[offset]
         sections.append({
             "municipality": log.municipality,
@@ -157,6 +159,7 @@ def aggregate_state(uf: str, logs: list[LogSummary], errors: int = 0) -> tuple[d
             "closingStartedAtLocal": format_clock(log.closing),
             "closingStartedAtBrasilia": format_clock(closing_brasilia),
             "lastVoteAtLocal": format_clock(log.last_vote),
+            "lastVoteAtBrasilia": format_clock(last_vote_brasilia),
         })
 
     voters = sum(item["votes"] for item in sections)
@@ -242,6 +245,11 @@ def write_payload(states: list[dict], source: dict, details: dict[str, list[dict
             "afterDecision": after,
             "percentageAfterDecision": round(after / voters * 100, 4) if voters else 0,
             "sectionsProcessed": sum(state["sectionsProcessed"] for state in states),
+            "sectionsExpected": TOTAL_SECOND_ROUND_URNS,
+            "sectionsCoveragePercentage": round(
+                sum(state["sectionsProcessed"] for state in states) / TOTAL_SECOND_ROUND_URNS * 100,
+                4,
+            ),
             "sectionsWithVotesAfterDecision": sum(state["sectionsWithVotesAfterDecision"] for state in states),
             "sectionsClosedBeforeDecision": sum(
                 state["sectionsClosedBeforeDecision"] for state in states
