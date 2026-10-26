@@ -121,7 +121,7 @@ export default function Home() {
           <h1 id="title">Votos antes e após a decisão</h1>
           <p className="context">Às 17h03 foi divulgada a decisão que prorrogou a votação até as 19h. Este painel separa os eventos registrados nos logs antes e a partir desse momento. <a href={decisionNews} target="_blank" rel="noreferrer">Entenda a cronologia</a>.</p>
         </div>
-
+        {result && <p className="collection-status"><span>Dados em apuração</span><strong>{integer.format(result.sectionsProcessed)} de {integer.format(expectedSections)} seções</strong></p>}
       </div>
 
       {failed ? <p className="message" role="alert">Não foi possível carregar os dados.</p> : !result ? <p className="message">Aguardando dados processados.</p> : <>

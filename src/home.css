@@ -11,6 +11,9 @@ body { background: #eef1ee; color: var(--ink); }
 .summary { width: min(1280px, 100%); margin: 0 auto; padding: 40px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: 0 24px 64px rgba(23, 26, 24, .08); }
 .heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; }
 .heading > div { max-width: 680px; }
+.collection-status { display: grid; flex: 0 0 auto; gap: 4px; margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); font-size: 12px; line-height: 16px; text-align: right; }
+.collection-status span { color: var(--accent); font-weight: 650; text-transform: uppercase; letter-spacing: .04em; }
+.collection-status strong { color: var(--ink); font-size: 14px; line-height: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
 .eyebrow, .context, .metric p, .controls span, .closing-data dt { color: var(--muted); font-size: 12px; line-height: 16px; }
 .eyebrow { margin: 0 0 12px; color: var(--accent); font-weight: 650; letter-spacing: .08em; }
 h1 { margin: 0; font-size: 36px; line-height: 40px; font-weight: 600; letter-spacing: -.035em; text-wrap: balance; }
@@ -75,6 +78,8 @@ td a { color: var(--accent); text-underline-offset: 3px; }
 
 @media (max-width: 560px) {
   .summary { padding: 16px; }
+  .heading { flex-direction: column; }
+  .collection-status { width: 100%; text-align: left; }
   .metrics { margin: 12px 0; }
   .metric { padding: 12px; }
   .metric + .metric { border-left: 1px solid var(--line); }
