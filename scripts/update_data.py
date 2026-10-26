@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import io
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -20,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "public" / "data" / "summary.json"
 STATES_OUTPUT = ROOT / "public" / "data" / "states"
 PORTAL_INPUT = ROOT / "data" / "raw" / "portal"
+PORTAL_STATE = ROOT / "data" / "raw" / ".update-state.json"
 CKAN_API = (
     "https://dadosabertos.tse.jus.br/api/3/action/package_show"
     "?id=resultados-2026-arquivos-transmitidos-para-totalizacao"
@@ -40,6 +42,7 @@ READY_MESSAGES = (
 )
 OFFICIAL_OFFSET = {"AC": -2, "AM": -1, "MS": -1, "MT": -1, "RO": -1, "RR": -1}
 LOG_NAME = re.compile(r"o03221([a-z]{2})(\d{5})(\d{4})(\d{4})-log\.jez$", re.IGNORECASE)
+PIPELINE_VERSION = 1
 
 
 @dataclass
@@ -225,6 +228,32 @@ def portal_logs(directory: Path) -> dict[str, list[LogSummary]]:
     return by_state
 
 
+def portal_snapshot(directory: Path) -> str:
+    digest = hashlib.sha256()
+    for path in sorted(directory.rglob("*-log.jez")):
+        stat = path.stat()
+        digest.update(f"{path.relative_to(directory)}:{stat.st_size}:{stat.st_mtime_ns}\n".encode())
+    return digest.hexdigest()
+
+
+def portal_is_current(snapshot: str) -> bool:
+    try:
+        saved = json.loads(PORTAL_STATE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    return saved == {"pipelineVersion": PIPELINE_VERSION, "snapshot": snapshot}
+
+
+def save_portal_snapshot(snapshot: str) -> None:
+    PORTAL_STATE.parent.mkdir(parents=True, exist_ok=True)
+    temporary = PORTAL_STATE.with_suffix(".tmp")
+    temporary.write_text(
+        json.dumps({"pipelineVersion": PIPELINE_VERSION, "snapshot": snapshot}) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(PORTAL_STATE)
+
+
 def write_payload(states: list[dict], source: dict, details: dict[str, list[dict]] | None = None) -> None:
     voters = sum(state["votersFromLogs"] for state in states)
     after = sum(state["afterDecision"] for state in states)
@@ -298,7 +327,13 @@ def main() -> int:
         default=PORTAL_INPUT,
         help="Processa os arquivos .jez baixados do portal oficial do TSE.",
     )
+    parser.add_argument("--force", action="store_true", help="Reprocessa os logs do portal mesmo sem arquivos novos.")
     args = parser.parse_args()
+
+    snapshot = portal_snapshot(args.portal_dir) if args.portal_dir.exists() else None
+    if snapshot and not args.input_dir and not args.force and portal_is_current(snapshot):
+        print("Nenhum log novo ou alterado no portal.")
+        return 0
 
     downloaded = portal_logs(args.portal_dir) if args.portal_dir.exists() else {}
     if downloaded and not args.input_dir:
@@ -316,6 +351,8 @@ def main() -> int:
             "resultsUrl": "https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6258/uf/br/cargo/1/vis/nominal/dados-de-urna/boletim-de-urna",
             "logBaseUrl": "https://resultados.tse.jus.br/oficial/ele2026/arquivo-urna/3221/dados",
         }, details)
+        if snapshot:
+            save_portal_snapshot(snapshot)
         print(f"Resumo gravado em {OUTPUT}")
         return 0
 

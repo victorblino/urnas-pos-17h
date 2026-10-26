@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from update_data import aggregate_state, infer_offset, local_archives, parse_log  # noqa: E402
+from update_data import aggregate_state, infer_offset, local_archives, parse_log, portal_snapshot  # noqa: E402
 from download_tse_logs import (  # noqa: E402
     Section,
     decode_jws,
@@ -28,6 +28,19 @@ def packed_log(lines: list[str]) -> bytes:
 
 
 class UpdateDataTest(unittest.TestCase):
+    def test_portal_snapshot_changes_for_new_or_changed_log(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as temporary:
+            directory = Path(temporary)
+            log = directory / "o03221ac0000000000000-log.jez"
+            log.write_bytes(b"first")
+            first = portal_snapshot(directory)
+            log.write_bytes(b"second")
+            second = portal_snapshot(directory)
+            (directory / "o03221ac0000000000001-log.jez").write_bytes(b"third")
+            third = portal_snapshot(directory)
+        self.assertNotEqual(first, second)
+        self.assertNotEqual(second, third)
+
     def test_acre_cutoff_is_1503_local(self):
         content = packed_log(
             [
