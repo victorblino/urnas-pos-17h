@@ -199,7 +199,7 @@ export default function Home() {
 
         <footer className="summary-footer">
           <p><strong>{integer.format(result.sectionsProcessed)}</strong> de {integer.format(expectedSections)} logs analisados · {percentage.format(coveragePercentage)}% de cobertura</p>
-          <p><strong>{integer.format(sessionsWithLateVotes)}</strong> com voto pós decisão · {percentage.format(sessionPercentage)}%</p>
+          <p><strong>{integer.format(sessionsWithLateVotes)}</strong> seções com registro pós decisão · {percentage.format(sessionPercentage)}% das seções analisadas</p>
           <a href={totalUrnsSource} target="_blank" rel="noreferrer">Fonte do total: TSE</a>
           <a href="https://github.com/victorblino/urnas-pos-17h" target="_blank" rel="noreferrer">Metodologia e código</a>
         </footer>
