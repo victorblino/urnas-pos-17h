@@ -43,7 +43,7 @@ READY_MESSAGES = (
 )
 OFFICIAL_OFFSET = {"AC": -2, "AM": -1, "MS": -1, "MT": -1, "RO": -1, "RR": -1}
 LOG_NAME = re.compile(r"o03221([a-z]{2})(\d{5})(\d{4})(\d{4})-log\.jez$", re.IGNORECASE)
-PIPELINE_VERSION = 1
+PIPELINE_VERSION = 2
 
 
 @dataclass
@@ -168,11 +168,15 @@ def aggregate_state(uf: str, logs: list[LogSummary], errors: int = 0) -> tuple[d
 
     voters = sum(item["votes"] for item in sections)
     after = sum(item["afterDecision"] for item in sections)
-    closing_times = [
-        item["closingStartedAtBrasilia"]
-        for item in sections
-        if item["closingStartedAtBrasilia"] is not None
-    ]
+    closing_sections = [item for item in sections if item["closingStartedAtBrasilia"] is not None]
+    earliest_closing = min(closing_sections, key=lambda item: item["closingStartedAtBrasilia"], default=None)
+    latest_closing = max(closing_sections, key=lambda item: item["closingStartedAtBrasilia"], default=None)
+
+    def closing_reference(item: dict | None) -> dict | None:
+        if item is None:
+            return None
+        return {"uf": uf, "municipality": item["municipality"], "zone": item["zone"], "section": item["section"]}
+
     closed_before_decision = sum(
         item["closingStartedAtBrasilia"] is not None
         and item["closingStartedAtBrasilia"] < DECISION_TIME
@@ -188,8 +192,10 @@ def aggregate_state(uf: str, logs: list[LogSummary], errors: int = 0) -> tuple[d
         "sectionsWithVotesAfterDecision": sum(item["afterDecision"] > 0 for item in sections),
         "sectionsClosedBeforeDecision": closed_before_decision,
         "sectionsWithoutClosingRecord": sum(item["closingStartedAtLocal"] is None for item in sections),
-        "earliestClosingStartedAtBrasilia": min(closing_times, default=None),
-        "latestClosingStartedAtBrasilia": max(closing_times, default=None),
+        "earliestClosingStartedAtBrasilia": earliest_closing["closingStartedAtBrasilia"] if earliest_closing else None,
+        "latestClosingStartedAtBrasilia": latest_closing["closingStartedAtBrasilia"] if latest_closing else None,
+        "earliestClosingSection": closing_reference(earliest_closing),
+        "latestClosingSection": closing_reference(latest_closing),
         "logsRejected": errors,
     }
     return state, sorted(sections, key=lambda item: (-item["afterDecision"], item["municipality"], item["zone"], item["section"]))
@@ -273,8 +279,16 @@ def state_chunks(sections: list[dict], max_bytes: int = MAX_STATE_CHUNK_BYTES) -
 def write_payload(states: list[dict], source: dict, details: dict[str, list[dict]] | None = None) -> None:
     voters = sum(state["votersFromLogs"] for state in states)
     after = sum(state["afterDecision"] for state in states)
-    earliest_closings = [state["earliestClosingStartedAtBrasilia"] for state in states if state["earliestClosingStartedAtBrasilia"]]
-    latest_closings = [state["latestClosingStartedAtBrasilia"] for state in states if state["latestClosingStartedAtBrasilia"]]
+    earliest_state = min(
+        (state for state in states if state["earliestClosingStartedAtBrasilia"]),
+        key=lambda state: state["earliestClosingStartedAtBrasilia"],
+        default=None,
+    )
+    latest_state = max(
+        (state for state in states if state["latestClosingStartedAtBrasilia"]),
+        key=lambda state: state["latestClosingStartedAtBrasilia"],
+        default=None,
+    )
     payload = {
         "status": "complete" if len(states) == 28 else "partial",
         "generatedAt": datetime.now(timezone.utc).isoformat(),
@@ -300,8 +314,10 @@ def write_payload(states: list[dict], source: dict, details: dict[str, list[dict
                 state["sectionsClosedBeforeDecision"] for state in states
             ),
             "sectionsWithoutClosingRecord": sum(state["sectionsWithoutClosingRecord"] for state in states),
-            "earliestClosingStartedAtBrasilia": min(earliest_closings, default=None),
-            "latestClosingStartedAtBrasilia": max(latest_closings, default=None),
+            "earliestClosingStartedAtBrasilia": earliest_state["earliestClosingStartedAtBrasilia"] if earliest_state else None,
+            "latestClosingStartedAtBrasilia": latest_state["latestClosingStartedAtBrasilia"] if latest_state else None,
+            "earliestClosingSection": earliest_state["earliestClosingSection"] if earliest_state else None,
+            "latestClosingSection": latest_state["latestClosingSection"] if latest_state else None,
         },
         "states": sorted(states, key=lambda state: state["uf"]),
         "source": source,

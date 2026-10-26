@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import './home.css'
 
+type SectionReference = { uf: string, municipality: string, zone: string, section: string }
+
 type Result = {
   uf?: string
   votersFromLogs: number
@@ -14,6 +16,8 @@ type Result = {
   sectionsWithoutClosingRecord: number
   earliestClosingStartedAtBrasilia: string | null
   latestClosingStartedAtBrasilia: string | null
+  earliestClosingSection?: SectionReference | null
+  latestClosingSection?: SectionReference | null
 }
 
 type Summary = {
@@ -62,6 +66,14 @@ function toBrasilia(local: string | null, offset: number) {
   return [Math.floor(value / 3600), Math.floor(value % 3600 / 60), value % 60]
     .map((part) => String(part).padStart(2, '0'))
     .join(':')
+}
+
+function sectionUrl(section: SectionReference) {
+  return `https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6258/uf/${section.uf.toLowerCase()}/mu/${section.municipality}/zn/${section.zone}/cargo/1/vis/nominal/se/${section.section}/dados-de-urna/boletim-de-urna`
+}
+
+function sectionLabel(section: SectionReference) {
+  return `${section.uf} ${section.municipality}/${section.zone}/${section.section}`
 }
 
 export default function Home() {
@@ -129,7 +141,7 @@ export default function Home() {
         <div>
           <p className="eyebrow">ELEIÇÃO 2026 · SEGUNDO TURNO</p>
           <h1 id="title">Votos antes e após a decisão</h1>
-          <p className="context">Às 17h03 foi divulgada a decisão que prorrogou a votação até as 19h. Este painel separa os eventos registrados nos logs antes e a partir desse momento. <a href={decisionNews} target="_blank" rel="noreferrer">Entenda a cronologia</a>.</p>
+          <p className="context">Às 17h03 foi divulgada a decisão que prorrogou a votação até as 19h. Este painel separa os registros de eleitor computado nos logs antes e a partir desse momento. Eles não distinguem votos válidos de branco ou nulo. <a href={decisionNews} target="_blank" rel="noreferrer">Entenda a cronologia</a>.</p>
         </div>
         {result && <p className="collection-status"><span>Dados em apuração</span><strong>{integer.format(result.sectionsProcessed)} de {integer.format(expectedSections)} seções</strong></p>}
       </div>
@@ -137,24 +149,24 @@ export default function Home() {
       {failed ? <p className="message" role="alert">Não foi possível carregar os dados.</p> : !result ? <p className="message">Aguardando dados processados.</p> : <>
         <div className="metrics">
           <article className="metric">
-            <p>Votos pré decisão</p>
+            <p>Registros pré decisão</p>
             <strong>{percentage.format(ratio(result.beforeDecision, totalVotes))}%</strong>
-            <span>{integer.format(result.beforeDecision)} votos</span>
+            <span>{integer.format(result.beforeDecision)} registros</span>
             <a href={source} target="_blank" rel="noreferrer">Fonte: TSE · dados de urna</a>
           </article>
 
           <article className="metric metric-after">
-            <p>Votos pós decisão · 17h03</p>
+            <p>Registros pós decisão · 17h03</p>
             <strong>{percentage.format(ratio(result.afterDecision, totalVotes))}%</strong>
-            <span>{integer.format(result.afterDecision)} votos</span>
+            <span>{integer.format(result.afterDecision)} registros</span>
             <a href={source} target="_blank" rel="noreferrer">Fonte: TSE · dados de urna</a>
           </article>
         </div>
 
         <div className="closing-data">
           <dl>
-            <div><dt>Primeiro encerramento</dt><dd>{result.earliestClosingStartedAtBrasilia ? `${result.earliestClosingStartedAtBrasilia} BRT` : '—'}</dd></div>
-            <div><dt>Último encerramento</dt><dd>{result.latestClosingStartedAtBrasilia ? `${result.latestClosingStartedAtBrasilia} BRT` : '—'}</dd></div>
+            <div><dt>Primeiro encerramento</dt><dd>{result.earliestClosingStartedAtBrasilia ? `${result.earliestClosingStartedAtBrasilia} BRT` : '—'}{result.earliestClosingSection && <a href={sectionUrl(result.earliestClosingSection)} target="_blank" rel="noreferrer">{sectionLabel(result.earliestClosingSection)}</a>}</dd></div>
+            <div><dt>Último encerramento</dt><dd>{result.latestClosingStartedAtBrasilia ? `${result.latestClosingStartedAtBrasilia} BRT` : '—'}{result.latestClosingSection && <a href={sectionUrl(result.latestClosingSection)} target="_blank" rel="noreferrer">{sectionLabel(result.latestClosingSection)}</a>}</dd></div>
             <div><dt>Encerradas antes das 17h03</dt><dd>{integer.format(result.sectionsClosedBeforeDecision)}</dd></div>
             <div><dt>Sem horário de encerramento</dt><dd>{integer.format(result.sectionsWithoutClosingRecord)}</dd></div>
           </dl>
@@ -176,7 +188,7 @@ export default function Home() {
               <thead><tr><th>Município</th><th>Zona</th><th>Seção</th><th>Pré decisão</th><th>Pós decisão</th><th>Último voto</th><th>Encerramento BRT</th><th>Fonte</th></tr></thead>
               {/* shortcut: render 200 rows to keep the static page responsive, add virtualization if full browsing becomes necessary */}
               <tbody>{filteredSections.slice(0, 200).map((section) => {
-                const sectionSource = `https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6258/uf/${activeUf.toLowerCase()}/mu/${section.municipality}/zn/${section.zone}/cargo/1/vis/nominal/se/${section.section}/dados-de-urna/boletim-de-urna`
+                const sectionSource = sectionUrl({ uf: activeUf, ...section })
                 const lastVoteBrasilia = section.lastVoteAtBrasilia ?? toBrasilia(section.lastVoteAtLocal, section.timezoneOffset)
                 return <tr key={`${section.municipality}-${section.zone}-${section.section}`}><td>{section.municipality}</td><td>{section.zone}</td><td>{section.section}</td><td>{integer.format(section.beforeDecision)}</td><td className={section.afterDecision ? 'late-votes' : ''}>{integer.format(section.afterDecision)}</td><td className="time"><strong>{lastVoteBrasilia ? `${lastVoteBrasilia} BRT` : '—'}</strong>{section.lastVoteAtLocal && section.lastVoteAtLocal !== lastVoteBrasilia && <small>{section.lastVoteAtLocal} local</small>}</td><td>{section.closingStartedAtBrasilia ? `${section.closingStartedAtBrasilia} BRT` : '—'}</td><td><a href={sectionSource} target="_blank" rel="noreferrer">TSE</a></td></tr>
               })}</tbody>

@@ -34,6 +34,7 @@ h1 { margin: 0; font-size: 36px; line-height: 40px; font-weight: 600; letter-spa
 .closing-data dl { display: grid; flex: 1; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 0; }
 .closing-data dt { margin-bottom: 4px; }
 .closing-data dd { margin: 0; font-size: 16px; line-height: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.closing-data dd a { display: block; width: fit-content; color: var(--muted); font-size: 12px; line-height: 16px; font-weight: 400; text-decoration-color: #aab3ac; text-underline-offset: 4px; }
 .details { display: flex; height: 560px; margin-top: 32px; border: 1px solid var(--line); border-radius: 8px; flex-direction: column; overflow: hidden; }
 .details-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding: 12px 16px; background: #f8faf8; }
 .details-heading h2 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 650; }

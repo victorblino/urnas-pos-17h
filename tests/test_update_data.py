@@ -94,6 +94,7 @@ class UpdateDataTest(unittest.TestCase):
         self.assertEqual(state["sectionsClosedBeforeDecision"], 1)
         self.assertEqual(state["earliestClosingStartedAtBrasilia"], "16:59:59")
         self.assertEqual(state["latestClosingStartedAtBrasilia"], "16:59:59")
+        self.assertEqual(state["earliestClosingSection"], {"uf": "AC", "municipality": "01066", "zone": "0004", "section": "0001"})
 
     def test_first_round_log_is_rejected(self):
         content = packed_log(
