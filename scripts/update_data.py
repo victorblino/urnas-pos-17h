@@ -36,6 +36,7 @@ CLOSING_MESSAGE = "Inicio do Encerramento"
 DECISION_TIME = "17:03:00"
 DECISION_MINUTE = 3
 TOTAL_SECOND_ROUND_URNS = 499_248
+MAX_STATE_CHUNK_BYTES = 20 * 1024 * 1024
 READY_MESSAGES = (
     "Aguardando digitação do título",
     "Aguardando digitação do identificador do eleitor",
@@ -254,6 +255,21 @@ def save_portal_snapshot(snapshot: str) -> None:
     temporary.replace(PORTAL_STATE)
 
 
+def state_chunks(sections: list[dict], max_bytes: int = MAX_STATE_CHUNK_BYTES) -> list[list[dict]]:
+    chunks: list[list[dict]] = []
+    chunk: list[dict] = []
+    chunk_size = len(b'{"sections":[]}')
+    for section in sections:
+        size = len(json.dumps(section, ensure_ascii=False, separators=(",", ":")).encode()) + 1
+        if chunk and chunk_size + size > max_bytes:
+            chunks.append(chunk)
+            chunk = []
+            chunk_size = len(b'{"sections":[]}')
+        chunk.append(section)
+        chunk_size += size
+    return chunks + ([chunk] if chunk else [])
+
+
 def write_payload(states: list[dict], source: dict, details: dict[str, list[dict]] | None = None) -> None:
     voters = sum(state["votersFromLogs"] for state in states)
     after = sum(state["afterDecision"] for state in states)
@@ -296,11 +312,19 @@ def write_payload(states: list[dict], source: dict, details: dict[str, list[dict
         STATES_OUTPUT.mkdir(parents=True, exist_ok=True)
         for uf, sections in details.items():
             state = next(item for item in states if item["uf"] == uf)
-            content = {"state": state, "sections": sections}
+            chunks = state_chunks(sections)
+            state_directory = STATES_OUTPUT / uf.lower()
+            state_directory.mkdir(parents=True, exist_ok=True)
+            content = {"state": state, "chunks": [f"{uf.lower()}/{index}.json" for index in range(len(chunks))]}
             (STATES_OUTPUT / f"{uf.lower()}.json").write_text(
                 json.dumps(content, ensure_ascii=False, separators=(",", ":")) + "\n",
                 encoding="utf-8",
             )
+            for index, chunk in enumerate(chunks):
+                (state_directory / f"{index}.json").write_text(
+                    json.dumps({"sections": chunk}, ensure_ascii=False, separators=(",", ":")) + "\n",
+                    encoding="utf-8",
+                )
 
 
 def local_archives(directory: Path) -> list[tuple[str, Path]]:

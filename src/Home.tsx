@@ -37,7 +37,8 @@ type Section = {
 
 type StateDetails = {
   state: Result
-  sections: Section[]
+  sections?: Section[]
+  chunks?: string[]
 }
 
 const integer = new Intl.NumberFormat('pt-BR')
@@ -107,6 +108,15 @@ export default function Home() {
       .then((response) => {
         if (!response.ok) throw new Error()
         return response.json() as Promise<StateDetails>
+      })
+      .then(async (value) => {
+        if (!value.chunks) return value
+        const chunks = await Promise.all(value.chunks.map(async (chunk) => {
+          const response = await fetch(`/data/states/${chunk}`)
+          if (!response.ok) throw new Error()
+          return response.json() as Promise<{ sections: Section[] }>
+        }))
+        return { ...value, sections: chunks.flatMap((chunk) => chunk.sections) }
       })
       .then((value) => active && setDetails(value))
       .catch(() => active && setDetailFailed(true))

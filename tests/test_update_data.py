@@ -1,5 +1,6 @@
 import base64
 import io
+import json
 import sys
 import tempfile
 import unittest
@@ -9,7 +10,7 @@ from unittest.mock import Mock, patch
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from update_data import aggregate_state, infer_offset, local_archives, parse_log, portal_snapshot  # noqa: E402
+from update_data import aggregate_state, infer_offset, local_archives, parse_log, portal_snapshot, state_chunks  # noqa: E402
 from download_tse_logs import (  # noqa: E402
     Section,
     decode_jws,
@@ -28,6 +29,15 @@ def packed_log(lines: list[str]) -> bytes:
 
 
 class UpdateDataTest(unittest.TestCase):
+    def test_state_chunks_stay_below_limit(self):
+        sections = [{"id": str(index), "value": "x" * 20} for index in range(6)]
+        chunks = state_chunks(sections, max_bytes=100)
+        self.assertEqual([section for chunk in chunks for section in chunk], sections)
+        self.assertTrue(all(
+            len(json.dumps({"sections": chunk}, separators=(",", ":")).encode()) <= 100
+            for chunk in chunks
+        ))
+
     def test_portal_snapshot_changes_for_new_or_changed_log(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as temporary:
             directory = Path(temporary)
