@@ -19,7 +19,19 @@
     "sectionsClosedBeforeDecision": 130357,
     "sectionsWithoutClosingRecord": 13,
     "earliestClosingStartedAtBrasilia": "17:00:16",
-    "latestClosingStartedAtBrasilia": "23:04:50"
+    "latestClosingStartedAtBrasilia": "23:04:50",
+    "earliestClosingSection": {
+      "uf": "BA",
+      "municipality": "30872",
+      "zone": "0186",
+      "section": "0002"
+    },
+    "latestClosingSection": {
+      "uf": "MG",
+      "municipality": "41882",
+      "zone": "0320",
+      "section": "0185"
+    }
   },
   "states": [
     {
@@ -34,7 +46,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:33",
       "latestClosingStartedAtBrasilia": "19:03:19",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "AC",
+        "municipality": "01392",
+        "zone": "0001",
+        "section": "0665"
+      },
+      "latestClosingSection": {
+        "uf": "AC",
+        "municipality": "01082",
+        "zone": "0004",
+        "section": "0479"
+      }
     },
     {
       "uf": "AL",
@@ -48,7 +72,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:38",
       "latestClosingStartedAtBrasilia": "19:02:17",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "AL",
+        "municipality": "27855",
+        "zone": "0003",
+        "section": "0415"
+      },
+      "latestClosingSection": {
+        "uf": "AL",
+        "municipality": "28215",
+        "zone": "0050",
+        "section": "0079"
+      }
     },
     {
       "uf": "AM",
@@ -62,7 +98,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:17",
       "latestClosingStartedAtBrasilia": "18:09:57",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "AM",
+        "municipality": "02550",
+        "zone": "0062",
+        "section": "0530"
+      },
+      "latestClosingSection": {
+        "uf": "AM",
+        "municipality": "02038",
+        "zone": "0033",
+        "section": "0040"
+      }
     },
     {
       "uf": "AP",
@@ -76,7 +124,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:31",
       "latestClosingStartedAtBrasilia": "17:40:02",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "AP",
+        "municipality": "06092",
+        "zone": "0004",
+        "section": "0046"
+      },
+      "latestClosingSection": {
+        "uf": "AP",
+        "municipality": "06050",
+        "zone": "0002",
+        "section": "0819"
+      }
     },
     {
       "uf": "BA",
@@ -90,7 +150,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:16",
       "latestClosingStartedAtBrasilia": "19:52:02",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "BA",
+        "municipality": "30872",
+        "zone": "0186",
+        "section": "0002"
+      },
+      "latestClosingSection": {
+        "uf": "BA",
+        "municipality": "38652",
+        "zone": "0099",
+        "section": "0190"
+      }
     },
     {
       "uf": "CE",
@@ -104,7 +176,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:25",
       "latestClosingStartedAtBrasilia": "18:28:06",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "CE",
+        "municipality": "13730",
+        "zone": "0037",
+        "section": "0020"
+      },
+      "latestClosingSection": {
+        "uf": "CE",
+        "municipality": "14672",
+        "zone": "0026",
+        "section": "0095"
+      }
     },
     {
       "uf": "DF",
@@ -118,7 +202,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:01:01",
       "latestClosingStartedAtBrasilia": "19:15:51",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "DF",
+        "municipality": "97012",
+        "zone": "0021",
+        "section": "0240"
+      },
+      "latestClosingSection": {
+        "uf": "DF",
+        "municipality": "97012",
+        "zone": "0005",
+        "section": "0298"
+      }
     },
     {
       "uf": "ES",
@@ -132,7 +228,19 @@
       "sectionsWithoutClosingRecord": 2,
       "earliestClosingStartedAtBrasilia": "17:00:27",
       "latestClosingStartedAtBrasilia": "19:02:16",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "ES",
+        "municipality": "56979",
+        "zone": "0021",
+        "section": "0007"
+      },
+      "latestClosingSection": {
+        "uf": "ES",
+        "municipality": "56251",
+        "zone": "0034",
+        "section": "0142"
+      }
     },
     {
       "uf": "GO",
@@ -146,7 +254,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:24",
       "latestClosingStartedAtBrasilia": "19:02:32",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "GO",
+        "municipality": "92215",
+        "zone": "0003",
+        "section": "0398"
+      },
+      "latestClosingSection": {
+        "uf": "GO",
+        "municipality": "93734",
+        "zone": "0147",
+        "section": "0463"
+      }
     },
     {
       "uf": "MA",
@@ -160,7 +280,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:32",
       "latestClosingStartedAtBrasilia": "19:06:01",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "MA",
+        "municipality": "09210",
+        "zone": "0001",
+        "section": "0505"
+      },
+      "latestClosingSection": {
+        "uf": "MA",
+        "municipality": "07609",
+        "zone": "0103",
+        "section": "0082"
+      }
     },
     {
       "uf": "MG",
@@ -174,7 +306,19 @@
       "sectionsWithoutClosingRecord": 1,
       "earliestClosingStartedAtBrasilia": "17:00:22",
       "latestClosingStartedAtBrasilia": "23:04:50",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "MG",
+        "municipality": "47236",
+        "zone": "0150",
+        "section": "0083"
+      },
+      "latestClosingSection": {
+        "uf": "MG",
+        "municipality": "41882",
+        "zone": "0320",
+        "section": "0185"
+      }
     },
     {
       "uf": "MS",
@@ -188,7 +332,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:32",
       "latestClosingStartedAtBrasilia": "17:34:30",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "MS",
+        "municipality": "90212",
+        "zone": "0010",
+        "section": "0092"
+      },
+      "latestClosingSection": {
+        "uf": "MS",
+        "municipality": "90735",
+        "zone": "0043",
+        "section": "0007"
+      }
     },
     {
       "uf": "MT",
@@ -202,7 +358,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:39",
       "latestClosingStartedAtBrasilia": "19:03:36",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "MT",
+        "municipality": "90050",
+        "zone": "0008",
+        "section": "0001"
+      },
+      "latestClosingSection": {
+        "uf": "MT",
+        "municipality": "91510",
+        "zone": "0010",
+        "section": "0399"
+      }
     },
     {
       "uf": "PA",
@@ -216,7 +384,19 @@
       "sectionsWithoutClosingRecord": 1,
       "earliestClosingStartedAtBrasilia": "17:00:21",
       "latestClosingStartedAtBrasilia": "19:05:30",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "PA",
+        "municipality": "04154",
+        "zone": "0072",
+        "section": "0512"
+      },
+      "latestClosingSection": {
+        "uf": "PA",
+        "municipality": "04278",
+        "zone": "0096",
+        "section": "0313"
+      }
     },
     {
       "uf": "PB",
@@ -230,7 +410,19 @@
       "sectionsWithoutClosingRecord": 1,
       "earliestClosingStartedAtBrasilia": "17:00:28",
       "latestClosingStartedAtBrasilia": "20:48:39",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "PB",
+        "municipality": "20516",
+        "zone": "0064",
+        "section": "0449"
+      },
+      "latestClosingSection": {
+        "uf": "PB",
+        "municipality": "20516",
+        "zone": "0076",
+        "section": "0383"
+      }
     },
     {
       "uf": "PE",
@@ -244,7 +436,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:33",
       "latestClosingStartedAtBrasilia": "19:22:22",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "PE",
+        "municipality": "23710",
+        "zone": "0027",
+        "section": "0004"
+      },
+      "latestClosingSection": {
+        "uf": "PE",
+        "municipality": "30015",
+        "zone": "0004",
+        "section": "0372"
+      }
     },
     {
       "uf": "PI",
@@ -258,7 +462,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:28",
       "latestClosingStartedAtBrasilia": "19:05:04",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "PI",
+        "municipality": "10723",
+        "zone": "0019",
+        "section": "0030"
+      },
+      "latestClosingSection": {
+        "uf": "PI",
+        "municipality": "12190",
+        "zone": "0097",
+        "section": "0400"
+      }
     },
     {
       "uf": "PR",
@@ -272,7 +488,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:21",
       "latestClosingStartedAtBrasilia": "19:08:17",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "PR",
+        "municipality": "75353",
+        "zone": "0174",
+        "section": "0256"
+      },
+      "latestClosingSection": {
+        "uf": "PR",
+        "municipality": "77771",
+        "zone": "0014",
+        "section": "0051"
+      }
     },
     {
       "uf": "RJ",
@@ -286,7 +514,19 @@
       "sectionsWithoutClosingRecord": 2,
       "earliestClosingStartedAtBrasilia": "17:00:20",
       "latestClosingStartedAtBrasilia": "20:46:24",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "RJ",
+        "municipality": "58696",
+        "zone": "0157",
+        "section": "0191"
+      },
+      "latestClosingSection": {
+        "uf": "RJ",
+        "municipality": "58319",
+        "zone": "0042",
+        "section": "0108"
+      }
     },
     {
       "uf": "RN",
@@ -300,7 +540,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:34",
       "latestClosingStartedAtBrasilia": "19:04:00",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "RN",
+        "municipality": "17795",
+        "zone": "0050",
+        "section": "0541"
+      },
+      "latestClosingSection": {
+        "uf": "RN",
+        "municipality": "18813",
+        "zone": "0009",
+        "section": "0115"
+      }
     },
     {
       "uf": "RO",
@@ -314,7 +566,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:36",
       "latestClosingStartedAtBrasilia": "18:10:48",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "RO",
+        "municipality": "00310",
+        "zone": "0017",
+        "section": "0101"
+      },
+      "latestClosingSection": {
+        "uf": "RO",
+        "municipality": "00574",
+        "zone": "0028",
+        "section": "0129"
+      }
     },
     {
       "uf": "RR",
@@ -328,7 +592,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:37",
       "latestClosingStartedAtBrasilia": "17:31:31",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "RR",
+        "municipality": "03018",
+        "zone": "0001",
+        "section": "0700"
+      },
+      "latestClosingSection": {
+        "uf": "RR",
+        "municipality": "03018",
+        "zone": "0001",
+        "section": "0528"
+      }
     },
     {
       "uf": "RS",
@@ -342,7 +618,19 @@
       "sectionsWithoutClosingRecord": 2,
       "earliestClosingStartedAtBrasilia": "17:00:26",
       "latestClosingStartedAtBrasilia": "19:07:42",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "RS",
+        "municipality": "87858",
+        "zone": "0033",
+        "section": "0513"
+      },
+      "latestClosingSection": {
+        "uf": "RS",
+        "municipality": "86517",
+        "zone": "0097",
+        "section": "0127"
+      }
     },
     {
       "uf": "SC",
@@ -356,7 +644,19 @@
       "sectionsWithoutClosingRecord": 1,
       "earliestClosingStartedAtBrasilia": "17:00:24",
       "latestClosingStartedAtBrasilia": "17:35:09",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "SC",
+        "municipality": "80942",
+        "zone": "0011",
+        "section": "0067"
+      },
+      "latestClosingSection": {
+        "uf": "SC",
+        "municipality": "81477",
+        "zone": "0015",
+        "section": "0173"
+      }
     },
     {
       "uf": "SE",
@@ -370,7 +670,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:34",
       "latestClosingStartedAtBrasilia": "19:06:59",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "SE",
+        "municipality": "31232",
+        "zone": "0028",
+        "section": "0111"
+      },
+      "latestClosingSection": {
+        "uf": "SE",
+        "municipality": "31054",
+        "zone": "0001",
+        "section": "0142"
+      }
     },
     {
       "uf": "SP",
@@ -384,7 +696,19 @@
       "sectionsWithoutClosingRecord": 2,
       "earliestClosingStartedAtBrasilia": "17:00:18",
       "latestClosingStartedAtBrasilia": "19:20:25",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "SP",
+        "municipality": "71072",
+        "zone": "0326",
+        "section": "0817"
+      },
+      "latestClosingSection": {
+        "uf": "SP",
+        "municipality": "71072",
+        "zone": "0418",
+        "section": "0129"
+      }
     },
     {
       "uf": "TO",
@@ -398,7 +722,19 @@
       "sectionsWithoutClosingRecord": 0,
       "earliestClosingStartedAtBrasilia": "17:00:41",
       "latestClosingStartedAtBrasilia": "17:31:00",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "TO",
+        "municipality": "94617",
+        "zone": "0005",
+        "section": "0092"
+      },
+      "latestClosingSection": {
+        "uf": "TO",
+        "municipality": "95290",
+        "zone": "0016",
+        "section": "0085"
+      }
     },
     {
       "uf": "ZZ",
@@ -412,7 +748,19 @@
       "sectionsWithoutClosingRecord": 1,
       "earliestClosingStartedAtBrasilia": "17:01:33",
       "latestClosingStartedAtBrasilia": "18:16:44",
-      "logsRejected": 0
+      "logsRejected": 0,
+      "earliestClosingSection": {
+        "uf": "ZZ",
+        "municipality": "29807",
+        "zone": "0001",
+        "section": "0631"
+      },
+      "latestClosingSection": {
+        "uf": "ZZ",
+        "municipality": "29955",
+        "zone": "0001",
+        "section": "3705"
+      }
     }
   ],
   "source": {
